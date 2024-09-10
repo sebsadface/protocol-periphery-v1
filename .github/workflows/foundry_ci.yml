@@ -51,14 +51,8 @@ jobs:
         env:
           MULTISIG_ADDRESS: ${{ vars.MULTISIG_ADDRESS }}
         run: |
-          echo $MULTISIG_ADDRESS
-
-      - name: Run Forge tests
-        env:
-          MULTISIG_ADDRESSs: "0xf398C12A45Bc409b6C652E25bbfd0a3e702492A4ab"  # Dummy value for testing
-        run: |
           env
-          echo $MULTISIG_ADDRESSs
+          echo $MULTISIG_ADDRESS
 
 
   # Coverage:
