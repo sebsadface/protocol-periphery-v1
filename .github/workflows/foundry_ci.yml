@@ -22,7 +22,7 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0
-          
+
       - name: Run install
         uses: borales/actions-yarn@v4
         with:
@@ -33,12 +33,18 @@ jobs:
         with:
           version: nightly
 
+      - name: Create .env
+        run: |
+          touch .env
+          echo "MULTISIG_ADDRESS=${{ secrets.MULTISIG_ADDRESS }}" >> .env
+
+
       # first, build contracts excluding the tests and scripts. Check contract sizes in this step.
       - name: Run Contract Size check
         run: |
           forge --version
           forge build --force --sizes --skip test --skip script
-      
+
       # This step requires full build to be run first
       - name: Upgrade Safety test
         run: |
@@ -52,6 +58,10 @@ jobs:
 
       - name: Run solhint
         run: npx solhint contracts/**/*.sol
+
+      - name: Remove .env
+        run: rm .env
+
 
   Coverage:
     needs: [foundry-test]
