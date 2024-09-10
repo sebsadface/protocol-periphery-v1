@@ -48,9 +48,10 @@ jobs:
       # # npx @openzeppelin/upgrades-core validate out/build-info
 
       - name: Run Forge tests
+        env:
+          MULTISIG_ADDRESS: ${{ vars.MULTISIG_ADDRESS }}
         run: |
           echo $MULTISIG_ADDRESS
-          forge test -vvv
 
 
   # Coverage:
