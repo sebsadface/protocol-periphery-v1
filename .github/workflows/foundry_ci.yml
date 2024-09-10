@@ -49,6 +49,7 @@ jobs:
 
       - name: Run Forge tests
         run: |
+          echo ${{ vars.MULTISIG_ADDRESS }}
           forge test -vvv
         id: forge-test
 
