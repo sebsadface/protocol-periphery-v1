@@ -20,20 +20,20 @@ jobs:
     env:
       MULTISIG_ADDRESS: ${{ vars.MULTISIG_ADDRESS }}
     steps:
-      # - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
-      #   with:
-      #     submodules: recursive
-      #     fetch-depth: 0
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        with:
+          submodules: recursive
+          fetch-depth: 0
 
-      # - name: Run install
-      #   uses: borales/actions-yarn@v4
-      #   with:
-      #     cmd: install # will run `yarn install` command
+      - name: Run install
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install # will run `yarn install` command
 
-      # - name: Install Foundry
-      #   uses: foundry-rs/foundry-toolchain@v1
-      #   with:
-      #     version: nightly
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: nightly
 
       # # first, build contracts excluding the tests and scripts. Check contract sizes in this step.
       # - name: Run Contract Size check
@@ -47,12 +47,14 @@ jobs:
       #     forge clean && forge build --build-info
       # # npx @openzeppelin/upgrades-core validate out/build-info
 
-      - name: Run tests
-        env:
-          MULTISIG_ADDRESS: ${{ vars.MULTISIG_ADDRESS }}
+      - name: Run Forge tests
         run: |
           env
-          echo $MULTISIG_ADDRESS
+          forge test -vvv
+        id: forge-test
+
+      # - name: Run solhint
+      #   run: npx solhint contracts/**/*.sol
 
 
   # Coverage:
