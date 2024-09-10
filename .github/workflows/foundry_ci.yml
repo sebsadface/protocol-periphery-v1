@@ -35,33 +35,31 @@ jobs:
         with:
           version: nightly
 
-      # # first, build contracts excluding the tests and scripts. Check contract sizes in this step.
-      # - name: Run Contract Size check
-      #   run: |
-      #     forge --version
-      #     forge build --force --sizes --skip test --skip script
+      # first, build contracts excluding the tests and scripts. Check contract sizes in this step.
+      - name: Run Contract Size check
+        run: |
+          forge --version
+          forge build --force --sizes --skip test --skip script
 
-      # # This step requires full build to be run first
-      # - name: Upgrade Safety test
-      #   run: |
-      #     forge clean && forge build --build-info
-      # # npx @openzeppelin/upgrades-core validate out/build-info
+      # This step requires full build to be run first
+      - name: Upgrade Safety test
+        run: |
+          forge clean && forge build --build-info
+      # npx @openzeppelin/upgrades-core validate out/build-info
 
       - name: Run Forge tests
         run: |
-          env
           forge test -vvv
         id: forge-test
 
-      # - name: Run solhint
-      #   run: npx solhint contracts/**/*.sol
+      - name: Run solhint
+        run: npx solhint contracts/**/*.sol
 
-
-  # Coverage:
-  #   needs: [foundry-test]
-  #   uses: storyprotocol/gha-workflows/.github/workflows/reusable-forge-code-coverage.yml@main
-  #   # FOR LOCAL TESTING ONLY
-  #   # uses: ./../gha-workflows/.github/workflows/reusable-forge-code-coverage.yml
-  #   with:
-  #     exclude_paths: 'test/*, script/*'
-  #     branch_coverage: true
+  Coverage:
+    needs: [foundry-test]
+    uses: storyprotocol/gha-workflows/.github/workflows/reusable-forge-code-coverage.yml@main
+    # FOR LOCAL TESTING ONLY
+    # uses: ./../gha-workflows/.github/workflows/reusable-forge-code-coverage.yml
+    with:
+      exclude_paths: 'test/*, script/*'
+      branch_coverage: true
